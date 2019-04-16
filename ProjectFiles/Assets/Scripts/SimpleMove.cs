@@ -13,6 +13,8 @@ public class SimpleMove : MonoBehaviour
     private Vector3 moveDirection = new Vector3(1, 0, 0);
     private CharacterController controller;
 
+    public bool noisy = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -52,9 +54,18 @@ public class SimpleMove : MonoBehaviour
             }
         }
 
+        if (moveDirection.magnitude > 0.1f)
+        {
+            noisy = true;
+        }
+        else
+        {
+            noisy = false;
+        }
+
         // Apply gravity
         moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
-
+        
         // Move the controller
         controller.Move(moveDirection * Time.deltaTime);
     }

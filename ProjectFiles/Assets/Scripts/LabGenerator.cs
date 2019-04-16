@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum FieldType
 {
@@ -59,7 +60,7 @@ public class Labyrinth
                 {
                     obj = GameObject.Instantiate(wallPrefab);
                     obj.transform.SetParent(world.transform);
-                    obj.transform.position = new Vector3(x * 2, 1, y * 2);
+                    obj.transform.position = new Vector3(x * 4, 1, y * 4);
                     obj.SetActive(type == FieldType.FT_StaticWall);
                 }
 
@@ -213,6 +214,7 @@ public class Labyrinth
 public class LabGenerator : MonoBehaviour
 {
     public GameObject wallPrefab;
+    public GameObject enemyPrefab;
     public Labyrinth lab;
 
     // Start the generation
@@ -220,6 +222,13 @@ public class LabGenerator : MonoBehaviour
     {
         lab = new Labyrinth();
         lab.StartGenerate(100, 100, gameObject);
+
+        GetComponent<NavMeshSurface>().BuildNavMesh();
+
+        for(int i = 0; i < 50; ++i)
+        {
+            GameObject.Instantiate(enemyPrefab).transform.position = new Vector3(Random.value * 400, 0, Random.value * 400);
+        }
     }
     
 }
